@@ -57,5 +57,11 @@ public class Sheep extends Actor {
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
         _bounds.setPosition(x, y);
+        _bounds = new Polygon(new float[] {
+                x, y,
+                x + getWidth(), y,
+                x + getWidth(), y + getHeight(),
+                x, y + getHeight()
+        });
     }
 }
