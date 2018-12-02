@@ -24,19 +24,19 @@ public class GameOverScreen implements Screen {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/Main_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
-        gameObject.bigFont = generator.generateFont(parameter);
+        gameObject.setBigFont(generator.generateFont(parameter));
     }
 
     @Override
     public void render(float delta) {
         camera.update();
-        gameObject.batch.begin();
-        gameObject.bigFont.draw(gameObject.batch, "All sheep died!" , 260, 540);
-        gameObject.batch.draw(deadSheep, 1000, 200);
-        gameObject.batch.end();
+        gameObject.getBatch().begin();
+        gameObject.getBigFont().draw(gameObject.getBatch(), "All sheep died!" , 260, 540);
+        gameObject.getBatch().draw(deadSheep, 1000, 200);
+        gameObject.getBatch().end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            gameObject.setScreen(new MainMenuScreen(gameObject));
+            gameObject.setScreen(new StartScreen(gameObject));
         }
     }
 
@@ -44,7 +44,13 @@ public class GameOverScreen implements Screen {
     public void show() {
         Gdx.gl.glClearColor(0,0,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gameObject.batch.setProjectionMatrix(camera.combined);
+        gameObject.getBatch().setProjectionMatrix(camera.combined);
+    }
+
+    @Override
+    public void dispose() {
+        generator.dispose();
+        deadSheep.dispose();
     }
 
     @Override
@@ -61,11 +67,5 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void hide() {
-    }
-
-    @Override
-    public void dispose() {
-        generator.dispose();
-        deadSheep.dispose();
     }
 }
