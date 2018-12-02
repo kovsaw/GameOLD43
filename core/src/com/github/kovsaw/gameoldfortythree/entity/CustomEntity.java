@@ -1,37 +1,25 @@
-package com.github.kovsaw.gameoldfortythree.Entities;
+package com.github.kovsaw.gameoldfortythree.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class OtherSheep extends Actor {
+public class CustomEntity extends Actor {
     private Sprite sprite;
-//    private Rectangle bounds;
-    private Polygon _bounds;
-
+    private Polygon bounds;
 
     public Polygon getBounds() {
-        return _bounds;
+        return bounds;
     }
 
-
-    public OtherSheep(Sprite sprite, float x, float y) {
+    public CustomEntity(Sprite sprite, float x, float y) {
         this.sprite = sprite;
         setSize(sprite.getWidth(), sprite.getHeight());
         setBounds(x, y, getWidth(), getHeight());
-//        bounds = new Rectangle(x, y, getWidth(), getHeight());
 
-        _bounds = new Polygon(new float[] {
-                x, y,
-                x + getWidth(), y,
-                x + getWidth(), y + getHeight(),
-                x, y + getHeight()
-        });
-
-        _bounds.setPosition(getX(), getY());
-        _bounds.setOrigin(getWidth() / 2, getHeight() / 2);
+        setPosition(x, y);
+        bounds.setOrigin(getWidth() / 2, getHeight() / 2);
     }
 
     @Override
@@ -52,18 +40,19 @@ public class OtherSheep extends Actor {
     @Override
     public void setRotation(float degrees) {
         super.setRotation(degrees);
-        _bounds.setRotation(degrees);
+        bounds.setRotation(degrees);
     }
 
     @Override
     public void setPosition(float x, float y) {
-        _bounds = new Polygon(new float[] {
+        bounds = new Polygon(new float[] {
                 x, y,
                 x + getWidth(), y,
                 x + getWidth(), y + getHeight(),
                 x, y + getHeight()
         });
+
         super.setPosition(x, y);
-        _bounds.setPosition(x, y);
+        bounds.setPosition(x, y);
     }
 }

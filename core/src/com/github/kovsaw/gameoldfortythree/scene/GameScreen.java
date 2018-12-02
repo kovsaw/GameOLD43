@@ -1,4 +1,4 @@
-package com.github.kovsaw.gameoldfortythree.Scenes;
+package com.github.kovsaw.gameoldfortythree.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.github.kovsaw.gameoldfortythree.Entities.Hunter;
-import com.github.kovsaw.gameoldfortythree.Entities.OtherSheep;
-import com.github.kovsaw.gameoldfortythree.Entities.Sheep;
+import com.github.kovsaw.gameoldfortythree.entity.CustomEntity;
 import com.github.kovsaw.gameoldfortythree.GameExtension;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameScreen implements Screen {
-    private final GameExtension game;
+    private final GameExtension gameObject;
     private Texture background;
     private OrthographicCamera camera;
-    private Sheep playerSheep;
+    private CustomEntity playerSheep;
     private int sheepSpeed;
-    private List<OtherSheep> otherSheepList;
-    private List<Hunter> hunterList;
+    private List<CustomEntity> otherSheepList;
+    private List<CustomEntity> hunterList;
     private ThreadLocalRandom random;
     private int sheepCount;
     private int hunterCount;
@@ -41,13 +38,13 @@ public class GameScreen implements Screen {
     private Music sheepDeathSound;
     private Music sheepSound;
 
-    GameScreen(final GameExtension game) {
+    GameScreen(final GameExtension gameObject) {
         sheepDeathSound = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Sheep_death_sound.mp3"));
         sheepSound = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Sheep_sound.mp3"));
         sheepDeathSound.setVolume(0.5f);
         sheepSound.setVolume(0.3f);
 
-        this.game = game;
+        this.gameObject = gameObject;
         frameCount = 0;
         random = ThreadLocalRandom.current();
         love = false;
@@ -58,7 +55,7 @@ public class GameScreen implements Screen {
         sheepSpeed = 5;
 
         background = new Texture("./core/assets/Gameplay_bg.png");
-        playerSheep = new Sheep(new Sprite(new Texture(Gdx.files.internal("./core/assets/Player_sheep.png"))), 960, 540);
+        playerSheep = new CustomEntity(new Sprite(new Texture(Gdx.files.internal("./core/assets/Player_sheep.png"))), 960, 540);
         playerSheep.setOrigin(playerSheep.getWidth() / 2, playerSheep.getHeight() / 2);
 
         rotationAngleForDirectionVector = new ConcurrentHashMap<>();
@@ -74,27 +71,22 @@ public class GameScreen implements Screen {
         otherSheepList = new ArrayList<>();
         sheepMovingDirectionsList = new ArrayList<>();
         for (int i = 0; i < sheepCount; i++) {
-            otherSheepList.add(new OtherSheep(new Sprite(new Texture(Gdx.files.internal("./core/assets/Simple_sheep.png"))),
+            otherSheepList.add(new CustomEntity(new Sprite(new Texture(Gdx.files.internal("./core/assets/Simple_sheep.png"))),
                     random.nextFloat() * 1720 + 100, random.nextFloat() * 880 + 100));
             otherSheepList.get(i).setOrigin(otherSheepList.get(i).getWidth() / 2, otherSheepList.get(i).getHeight() / 2);
             sheepMovingDirectionsList.add(new Vector2(random.nextInt(3) - 1, random.nextInt(3) - 1));
         }
 
         hunterList = new ArrayList<>();
-        makeHunters();
+        createHunters();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
     }
 
-    private void moveRandomly(OtherSheep sheepToMove, Vector2 direction) {
-        sheepToMove.setRotation(rotationAngleForDirectionVector.getOrDefault(direction, sheepToMove.getRotation()));
-        sheepToMove.setPosition(sheepToMove.getX() + direction.x, sheepToMove.getY() + direction.y);
-    }
-
-    private void makeHunters() {
+    private void createHunters() {
         for (int i = 0; i < hunterCount; i++) {
-            hunterList.add(new Hunter(new Sprite(new Texture("./core/assets/Hunter_with_pike.png")),
+            hunterList.add(new CustomEntity(new Sprite(new Texture("./core/assets/Hunter_with_pike.png")),
                     random.nextFloat() * 1720 + 110, 1070));
         }
     }
@@ -103,7 +95,7 @@ public class GameScreen implements Screen {
         if (love) {
             int newSheeps = random.nextInt(1, 2);
             sheepCount += newSheeps;
-            otherSheepList.add(new OtherSheep(new Sprite(new Texture(Gdx.files.internal("./core/assets/Simple_sheep.png"))),
+            otherSheepList.add(new CustomEntity(new Sprite(new Texture(Gdx.files.internal("./core/assets/Simple_sheep.png"))),
                     random.nextFloat() * 1720 + 100, random.nextFloat() * 880 + 100));
             otherSheepList.get(sheepCount - 1).setOrigin(otherSheepList.get(sheepCount - 1).getWidth() / 2,
                     otherSheepList.get(sheepCount - 1).getHeight() / 2);
@@ -130,7 +122,7 @@ public class GameScreen implements Screen {
 
 //        for (int i = 0; i < hunterCount; i++) {
 //            if (Intersector.overlapConvexPolygons(playerSheep.getBounds(), hunterList.get(i).getBounds())) {
-//                game.setScreen(new GameOverScreen(game));
+//                gameObject.setScreen(new GameOverScreen(gameObject));
 //            }
 //        }
 
@@ -188,75 +180,61 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void randomAI(OtherSheep sheep, Vector2 direction) {
-        handleScreenEdgeIntersection(sheep);
-        moveRandomly(sheep, direction);
+    private void executeSheepRandomMoving(CustomEntity sheepToMove, Vector2 direction) {
+        handleScreenEdgeIntersection(sheepToMove);
+        sheepToMove.setRotation(rotationAngleForDirectionVector.getOrDefault(direction, sheepToMove.getRotation()));
+        sheepToMove.setPosition(sheepToMove.getX() + direction.x, sheepToMove.getY() + direction.y);
     }
 
-    private void handleScreenEdgeIntersection(Actor actor) {
-        if (actor.getX() < 0) {
-            actor.setPosition(1920, actor.getY());
+    private void handleScreenEdgeIntersection(CustomEntity entity) {
+        if (entity.getX() < 0) {
+            entity.setPosition(1920, entity.getY());
         }
 
-        if (actor.getX() > 1920) {
-            actor.setPosition(0, actor.getY());
+        if (entity.getX() > 1920) {
+            entity.setPosition(0, entity.getY());
         }
 
-        if (actor.getY() < 0) {
-            actor.setPosition(actor.getX(), 1080);
+        if (entity.getY() < 0) {
+            entity.setPosition(entity.getX(), 1080);
         }
 
-        if (actor.getY() > 1080) {
-            actor.setPosition(actor.getX(), 0);
+        if (entity.getY() > 1080) {
+            entity.setPosition(entity.getX(), 0);
         }
     }
 
-    private void randomAI(Hunter hunter) {
-        if (hunter.getY() < 0) {
-            hunterList.clear();
-            makeHunters();
-        }
-
-        moveRandomly(hunter);
-    }
-
-    private void moveRandomly(Hunter hunter) {
-//        while (direction.x == 0 && direction.y == 0) {
-//            direction = new Vector2(random.nextInt(3) - 1, random.nextInt(3) - 1);
-//        }
-
+    private void executeHunterRandomMoving(CustomEntity hunterToMove) {
         if (sheepCount >= 50) {
-            hunter.setPosition(hunter.getX(), hunter.getY() - 12);
+            hunterToMove.setPosition(hunterToMove.getX(), hunterToMove.getY() - 12);
         } else if (sheepCount >= 40) {
-            hunter.setPosition(hunter.getX(), hunter.getY() - 10);
+            hunterToMove.setPosition(hunterToMove.getX(), hunterToMove.getY() - 10);
         } else if (sheepCount > 30) {
-            hunter.setPosition(hunter.getX(), hunter.getY() - 8);
+            hunterToMove.setPosition(hunterToMove.getX(), hunterToMove.getY() - 8);
         } else if (sheepCount > 20) {
-            hunter.setPosition(hunter.getX(), hunter.getY() - 6);
+            hunterToMove.setPosition(hunterToMove.getX(), hunterToMove.getY() - 6);
         } else if (sheepCount > 10) {
-            hunter.setPosition(hunter.getX(), hunter.getY() - 4);
+            hunterToMove.setPosition(hunterToMove.getX(), hunterToMove.getY() - 4);
         } else {
-            hunter.setPosition(hunter.getX(), hunter.getY() - 2);
+            hunterToMove.setPosition(hunterToMove.getX(), hunterToMove.getY() - 2);
         }
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.batch.draw(background, 0, 0);
+        gameObject.batch.begin();
+        gameObject.batch.draw(background, 0, 0);
 
         if (frameCount % 150 == 0 && frameCount != 0) {
             for (int i = 0; i < sheepCount; i++) {
                 sheepMovingDirectionsList.set(i, new Vector2(random.nextInt(3) - 1, random.nextInt(3) - 1));
             }
+
             frameCount = 0;
         }
 
-        for (Hunter listHunter : hunterList) {
+        for (CustomEntity listHunter : hunterList) {
             for (int i = sheepCount - 1; i >= 0; i--) {
                 if (Intersector.overlapConvexPolygons(otherSheepList.get(i).getBounds(), listHunter.getBounds())) {
                     sheepCount -= 1;
@@ -281,26 +259,30 @@ public class GameScreen implements Screen {
                 }
             }
 
-            randomAI(otherSheepList.get(i), sheepMovingDirectionsList.get(i));
-
-            otherSheepList.get(i).draw(game.batch, 1);
+            executeSheepRandomMoving(otherSheepList.get(i), sheepMovingDirectionsList.get(i));
+            otherSheepList.get(i).draw(gameObject.batch, 1);
         }
 
-        for (int i = 0; i < hunterCount; i++) {
-            randomAI(hunterList.get(i));
-            hunterList.get(i).draw(game.batch, 1);
+        hunterList.forEach(entity -> {
+            executeHunterRandomMoving(entity);
+            entity.draw(gameObject.batch, 1);
+        });
+
+        if (hunterList.get(0).getY() < 0) {
+            hunterList.clear();
+            createHunters();
         }
 
         frameCount++;
-        playerSheep.draw(game.batch, 1);
+        playerSheep.draw(gameObject.batch, 1);
         playerSheep.setZIndex(0);
-        game.smallFont.draw(game.batch, "Sheep amount: " + sheepCount, 100, 100);
-        game.smallFont.draw(game.batch, "Born sheep amount: " + resultCount, 900, 100);
-        game.batch.end();
+        gameObject.smallFont.draw(gameObject.batch, "Sheep amount: " + sheepCount, 100, 100);
+        gameObject.smallFont.draw(gameObject.batch, "Born sheep amount: " + resultCount, 900, 100);
+        gameObject.batch.end();
         handleInput();
 
         if (sheepCount == 0) {
-            game.setScreen(new GameOverScreen(game));
+            gameObject.setScreen(new GameOverScreen(gameObject));
         }
     }
 
@@ -310,6 +292,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.gl.glClearColor(0, 1, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gameObject.batch.setProjectionMatrix(camera.combined);
+    }
+
+    @Override
+    public void dispose() {
+        sheepSound.dispose();
+        sheepDeathSound.dispose();
+        background.dispose();
+        gameObject.batch.dispose();
     }
 
     @Override
@@ -326,10 +319,5 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-    }
-
-    @Override
-    public void dispose() {
-        game.batch.dispose();
     }
 }

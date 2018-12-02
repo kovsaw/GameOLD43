@@ -1,4 +1,4 @@
-package com.github.kovsaw.gameoldfortythree.Scenes;
+package com.github.kovsaw.gameoldfortythree.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.github.kovsaw.gameoldfortythree.GameExtension;
 
 public class GameOverScreen implements Screen {
-    private final GameExtension game;
+    private final GameExtension gameObject;
     private OrthographicCamera camera;
     private Texture deadSheep;
     private FreeTypeFontGenerator generator;
 
-    public GameOverScreen(GameExtension game) {
-        this.game = game;
+    public GameOverScreen(GameExtension gameObject) {
+        this.gameObject = gameObject;
         deadSheep = new Texture("./core/assets/Dead_sheep.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
@@ -24,29 +24,27 @@ public class GameOverScreen implements Screen {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/Main_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
-        game.bigFont = generator.generateFont(parameter);
+        gameObject.bigFont = generator.generateFont(parameter);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0f,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         camera.update();
-
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.bigFont.draw(game.batch, "All sheep died!" , 260, 540);
-        game.batch.draw(deadSheep, 1000, 200);
-        game.batch.end();
+        gameObject.batch.begin();
+        gameObject.bigFont.draw(gameObject.batch, "All sheep died!" , 260, 540);
+        gameObject.batch.draw(deadSheep, 1000, 200);
+        gameObject.batch.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            game.setScreen(new MainMenuScreen(game));
+            gameObject.setScreen(new MainMenuScreen(gameObject));
         }
     }
 
     @Override
     public void show() {
+        Gdx.gl.glClearColor(0,0,0f,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gameObject.batch.setProjectionMatrix(camera.combined);
     }
 
     @Override
@@ -68,5 +66,6 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
         generator.dispose();
+        deadSheep.dispose();
     }
 }
