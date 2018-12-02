@@ -7,21 +7,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.github.kovsaw.gameoldfortythree.MainGame;
+import com.github.kovsaw.gameoldfortythree.GameExtension;
 
-public class OverGame implements Screen {
-    private final MainGame game;
+public class GameOverScreen implements Screen {
+    private final GameExtension game;
     private OrthographicCamera camera;
     private Texture deadSheep;
     private FreeTypeFontGenerator generator;
 
-    public OverGame(MainGame game) {
+    public GameOverScreen(GameExtension game) {
         this.game = game;
-        deadSheep = new Texture("./core/assets/dead-sheep.png");
+        deadSheep = new Texture("./core/assets/Dead_sheep.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/graf.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/Main_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
         game.bigFont = generator.generateFont(parameter);

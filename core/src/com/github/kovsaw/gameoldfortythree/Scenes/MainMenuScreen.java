@@ -8,19 +8,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.github.kovsaw.gameoldfortythree.MainGame;
+import com.github.kovsaw.gameoldfortythree.GameExtension;
 
 public class MainMenuScreen implements Screen {
-    private final MainGame game;
+    private final GameExtension game;
     private OrthographicCamera camera;
     private Texture bg;
     private FreeTypeFontGenerator generator;
     private Music music;
 
 
-    public MainMenuScreen(MainGame game) {
+    public MainMenuScreen(GameExtension game) {
         this.game = game;
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/graf.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/Main_font.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
@@ -28,8 +28,8 @@ public class MainMenuScreen implements Screen {
         parameter.size = 100;
         game.smallFont = generator.generateFont(parameter);
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/MainMenu.mp3"));
-        bg = new Texture("./core/assets/bg.jpg");
+        music = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Main_theme.mp3"));
+        bg = new Texture("./core/assets/Menu_bg.jpg");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
     }
