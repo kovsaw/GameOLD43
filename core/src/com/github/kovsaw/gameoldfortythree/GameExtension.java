@@ -2,7 +2,7 @@ package com.github.kovsaw.gameoldfortythree;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.github.kovsaw.gameoldfortythree.scene.StartScreen;
+import com.github.kovsaw.gameoldfortythree.screen.StartScreen;
 
 public class GameExtension extends com.badlogic.gdx.Game {
     private SpriteBatch batch;

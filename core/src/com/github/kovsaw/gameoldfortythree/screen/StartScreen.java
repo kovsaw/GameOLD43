@@ -1,4 +1,4 @@
-package com.github.kovsaw.gameoldfortythree.scene;
+package com.github.kovsaw.gameoldfortythree.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,7 +19,7 @@ public class StartScreen implements Screen {
 
     public StartScreen(GameExtension gameObject) {
         this.gameObject = gameObject;
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/Main_font.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Main_font.ttf"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
@@ -27,8 +27,8 @@ public class StartScreen implements Screen {
         parameter.size = 100;
         gameObject.setSmallFont(generator.generateFont(parameter));
 
-        mainThemeMusic = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Main_theme.mp3"));
-        background = new Texture("./core/assets/Menu_bg.jpg");
+        mainThemeMusic = Gdx.audio.newMusic(Gdx.files.internal("Main_theme.mp3"));
+        background = new Texture("Menu_bg.jpg");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
     }

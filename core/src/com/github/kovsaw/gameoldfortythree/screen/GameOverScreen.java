@@ -1,4 +1,4 @@
-package com.github.kovsaw.gameoldfortythree.scene;
+package com.github.kovsaw.gameoldfortythree.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -17,11 +17,11 @@ public class GameOverScreen implements Screen {
 
     public GameOverScreen(GameExtension gameObject) {
         this.gameObject = gameObject;
-        deadSheep = new Texture("./core/assets/Dead_sheep.png");
+        deadSheep = new Texture("Dead_sheep.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("./core/assets/Main_font.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Main_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
         gameObject.setBigFont(generator.generateFont(parameter));

@@ -1,4 +1,4 @@
-package com.github.kovsaw.gameoldfortythree.scene;
+package com.github.kovsaw.gameoldfortythree.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -39,8 +39,8 @@ public class GameScreen implements Screen {
     private Music sheepSound;
 
     GameScreen(final GameExtension gameObject) {
-        sheepDeathSound = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Sheep_death_sound.mp3"));
-        sheepSound = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Sheep_sound.mp3"));
+        sheepDeathSound = Gdx.audio.newMusic(Gdx.files.internal("Sheep_death_sound.mp3"));
+        sheepSound = Gdx.audio.newMusic(Gdx.files.internal("Sheep_sound.mp3"));
         sheepDeathSound.setVolume(0.5f);
         sheepSound.setVolume(0.3f);
 
@@ -54,10 +54,10 @@ public class GameScreen implements Screen {
         resultCount = 0;
         sheepSpeed = 5;
 
-        background = new Texture("./core/assets/Gameplay_bg.png");
+        background = new Texture("Gameplay_bg.png");
 
         playerSheep = new CustomEntity(
-                new Sprite(new Texture(Gdx.files.internal("./core/assets/Player_sheep.png"))),
+                new Sprite(new Texture(Gdx.files.internal("Player_sheep.png"))),
                 960,
                 540
         );
@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
         sheepMovingDirectionsList = new ArrayList<>();
         for (int i = 0; i < sheepCount; i++) {
             otherSheepList.add(new CustomEntity(
-                    new Sprite(new Texture(Gdx.files.internal("./core/assets/Simple_sheep.png"))),
+                    new Sprite(new Texture(Gdx.files.internal("Simple_sheep.png"))),
                     random.nextFloat() * 1720 + 100, random.nextFloat() * 880 + 100)
             );
 
@@ -100,7 +100,7 @@ public class GameScreen implements Screen {
     private void createHunters() {
         for (int i = 0; i < hunterCount; i++) {
             hunterList.add(new CustomEntity(
-                    new Sprite(new Texture("./core/assets/Hunter_with_pike.png")),
+                    new Sprite(new Texture("Hunter_with_pike.png")),
                     random.nextFloat() * 1720 + 110,
                     1070)
             );
@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
             sheepCount += newSheeps;
 
             otherSheepList.add(new CustomEntity(
-                    new Sprite(new Texture(Gdx.files.internal("./core/assets/Simple_sheep.png"))),
+                    new Sprite(new Texture(Gdx.files.internal("Simple_sheep.png"))),
                     random.nextFloat() * 1720 + 100, random.nextFloat() * 880 + 100
             ));
 
