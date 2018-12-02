@@ -95,7 +95,7 @@ public class GameScreen implements Screen {
         listHunters = new ArrayList<Hunter>();
         bg = new Texture("./core/assets/background.png");
         hunterTexture = new Texture("./core/assets/shooting-hunter.png");
-        sheepSpeed = 10;
+        sheepSpeed = 5;
         batch = new SpriteBatch();
         sheep = new Sheep(new Sprite(new Texture(Gdx.files.internal("./core/assets/mainSheep.png"))), 960, 540);
         sheep.setOrigin(sheep.getWidth() / 2, sheep.getHeight() / 2);
@@ -173,49 +173,53 @@ public class GameScreen implements Screen {
             sheep.setPosition(sheep.getX(), 0);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) &&
+                (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))) {
             sheep.setPosition(sheep.getX() + sheepSpeed, sheep.getY() + sheepSpeed);
             sheep.setRotation(315);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
+                && (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))) {
             sheep.setPosition(sheep.getX() + sheepSpeed, sheep.getY() - sheepSpeed);
             sheep.setRotation(225);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) &&
+                (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))) {
             sheep.setPosition(sheep.getX() - sheepSpeed, sheep.getY() + sheepSpeed);
             sheep.setRotation(45);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
+                && (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))) {
             sheep.setPosition(sheep.getX() - sheepSpeed, sheep.getY() - sheepSpeed);
             sheep.setRotation(135);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             sheep.setPosition(sheep.getX(), sheep.getY() + sheepSpeed);
             sheep.setRotation(0);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
             sheep.setPosition(sheep.getX(), sheep.getY() - sheepSpeed);
             sheep.setRotation(180);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
             sheep.setPosition(sheep.getX() - sheepSpeed, sheep.getY());
             sheep.setRotation(90);
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
             sheep.setPosition(sheep.getX() + sheepSpeed, sheep.getY());
             sheep.setRotation(270);
             return;
@@ -341,7 +345,7 @@ public class GameScreen implements Screen {
         sheep.draw(game.batch, 1);
         sheep.setZIndex(0);
         game.font.draw(game.batch, "Sheep amount: " + countSheeps, 100, 100);
-        game.font.draw(game.batch, "Spawn sheep amount: " + resultCount, 900, 100);
+        game.font.draw(game.batch, "Born sheep amount: " + resultCount, 900, 100);
         game.batch.end();
 //        sr.end();
         handleInput();

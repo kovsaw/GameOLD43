@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
         game.font = generator.generateFont(parameter);
-        game.font.draw(game.batch, "SAVE AND LOVE ALL SHEEP!", 260, 540);
+        game.font.draw(game.batch, "SAVE AND LOVE AS \n MANY SHEEP AS YOU CAN!", 260, 540);
 
         parameter.size = 100;
         game.font = generator.generateFont(parameter);
