@@ -3,6 +3,7 @@ package com.github.kovsaw.gameoldfortythree.Scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -41,17 +42,25 @@ public class GameScreen implements Screen {
     private boolean love = false;
     private int kostil = 20;
     private int resultCount = 0;
+    private Music musicDead;
+    private Music musicVoice;
 
-    ShapeRenderer sr = new ShapeRenderer();
+//    ShapeRenderer sr = new ShapeRenderer();
 
     public GameScreen(final MainGame game) {
+
+        musicDead = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Death-sound.mp3"));
+        musicVoice = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/Sheep-voice.mp3"));
+        musicDead.setVolume(0.5f);
+        musicVoice.setVolume(0.3f);
+
         this.game = game;
         frameCount = 0;
         angleForVector = new HashMap<Vector2, Float>();
         angleForVector.put(new Vector2(0, 1), 0f);
-        angleForVector.put(new Vector2(1, 0), 90f);
+        angleForVector.put(new Vector2(1, 0), 270f);
         angleForVector.put(new Vector2(0, -1), 180f);
-        angleForVector.put(new Vector2(-1, 0), 270f);
+        angleForVector.put(new Vector2(-1, 0), 90f);
         angleForVector.put(new Vector2(-1, -1), 135f);
         angleForVector.put(new Vector2(1, 1), 315f);
         angleForVector.put(new Vector2(-1, 1), 45f);
@@ -88,7 +97,7 @@ public class GameScreen implements Screen {
         hunterTexture = new Texture("./core/assets/shooting-hunter.png");
         sheepSpeed = 10;
         batch = new SpriteBatch();
-        sheep = new Sheep(new Sprite(new Texture(Gdx.files.internal("./core/assets/new-sheep.png"))), 960, 540);
+        sheep = new Sheep(new Sprite(new Texture(Gdx.files.internal("./core/assets/mainSheep.png"))), 960, 540);
         sheep.setOrigin(sheep.getWidth() / 2, sheep.getHeight() / 2);
 
 
@@ -118,6 +127,7 @@ public class GameScreen implements Screen {
             listDirections.add(new Vector2(random.nextInt(3) - 1, random.nextInt(3) - 1));
             love = false;
             resultCount += newSheeps;
+            musicVoice.play();
         }
         for (int i = 0; i < countSheeps; i++) {
             if (Intersector.overlapConvexPolygons(sheep.getBounds(), listSheeps.get(i).getBounds())) {
@@ -274,14 +284,15 @@ public class GameScreen implements Screen {
             }
             frameCount = 0;
         }
-        sr.setProjectionMatrix(camera.combined);
-        sr.begin(ShapeRenderer.ShapeType.Line);
+//        sr.setProjectionMatrix(camera.combined);
+//        sr.begin(ShapeRenderer.ShapeType.Line);
         for (int i = 0; i < countSheeps; i++) {
             for (int j = 0; j < countHunters; j++) {
                 try {
                     if (Intersector.overlapConvexPolygons(listSheeps.get(i).getBounds(), listHunters.get(j).getBounds())) {
                         countSheeps-=1;
                         listSheeps.remove(i);
+                        musicDead.play();
                     }
                 } catch (IndexOutOfBoundsException e) {
                     System.out.print("FAIL with count sheep \n");
@@ -319,8 +330,8 @@ public class GameScreen implements Screen {
 
             listSheeps.get(i).draw(game.batch, 1);
 
-            sr.setColor(0, 0, 1, 0.5f);
-            sr.polygon(listSheeps.get(i).getBounds().getVertices());
+//            sr.setColor(0, 0, 1, 0.5f);
+//            sr.polygon(listSheeps.get(i).getBounds().getVertices());
         }
         for (int i = 0; i < countHunters; i++) {
             randomAI(listHunters.get(i));
@@ -332,7 +343,7 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch, "Sheep amount: " + countSheeps, 100, 100);
         game.font.draw(game.batch, "Spawn sheep amount: " + resultCount, 900, 100);
         game.batch.end();
-        sr.end();
+//        sr.end();
         handleInput();
 //        game.game.batch.font.draw(game.game.batch, "Count sheep: " + countSheeps, 100, 100);
 //        game.game.batch.draw();

@@ -32,7 +32,7 @@ public class MainMenuScreen implements Screen {
         System.out.println("SHOW-TEST");
         Music music = Gdx.audio.newMusic(Gdx.files.internal("./core/assets/MainMenu.mp3"));
         music.play();
-        music.setVolume(0.5f);
+        music.setVolume(0.3f);
         music.setLooping(true);
     }
 
@@ -54,15 +54,14 @@ public class MainMenuScreen implements Screen {
 
         parameter.size = 100;
         game.font = generator.generateFont(parameter);
-        game.font.draw(game.batch, "Press ANY KEY to start!", 260, 780);
+        game.font.draw(game.batch, "Press SPACE to start!", 260, 780);
 
         generator.dispose();
 
 
         game.batch.end();
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
-
         }
     }
 
