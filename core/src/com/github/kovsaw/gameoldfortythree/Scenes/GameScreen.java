@@ -240,7 +240,7 @@ public class GameScreen implements Screen {
 //                }
             }
 
-//            randomAI(listSheeps.get(i), directions[i]);
+            randomAI(listSheeps.get(i), directions[i]);
             listSheeps.get(i).draw(batch, 1);
             sr.setColor(0, 0, 1, 0.5f);
             sr.polygon(listSheeps.get(i).getBounds().getVertices());
@@ -253,6 +253,11 @@ public class GameScreen implements Screen {
         batch.end();
         sr.end();
         handleInput();
+
+
+        if (Gdx.input.isTouched()) {
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     @Override
