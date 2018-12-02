@@ -14,7 +14,6 @@ import com.github.kovsaw.gameoldfortythree.Entities.Hunter;
 import com.github.kovsaw.gameoldfortythree.Entities.OtherSheep;
 import com.github.kovsaw.gameoldfortythree.Entities.Sheep;
 import com.github.kovsaw.gameoldfortythree.MainGame;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

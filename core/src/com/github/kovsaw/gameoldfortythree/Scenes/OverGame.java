@@ -25,8 +25,6 @@ public class OverGame implements Screen {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
         game.bigFont = generator.generateFont(parameter);
-        parameter.size = 30;
-        game.smallFont = generator.generateFont(parameter);
     }
 
     @Override
