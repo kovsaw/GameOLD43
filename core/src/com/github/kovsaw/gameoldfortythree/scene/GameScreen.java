@@ -56,8 +56,8 @@ public class GameScreen implements Screen {
 
         background = new Texture("./core/assets/Gameplay_bg.png");
 
-        playerSheep = new CustomEntity(new Sprite(new Texture(
-                Gdx.files.internal("./core/assets/Player_sheep.png"))),
+        playerSheep = new CustomEntity(
+                new Sprite(new Texture(Gdx.files.internal("./core/assets/Player_sheep.png"))),
                 960,
                 540
         );
@@ -99,8 +99,8 @@ public class GameScreen implements Screen {
 
     private void createHunters() {
         for (int i = 0; i < hunterCount; i++) {
-            hunterList.add(new CustomEntity(new Sprite(
-                    new Texture("./core/assets/Hunter_with_pike.png")),
+            hunterList.add(new CustomEntity(
+                    new Sprite(new Texture("./core/assets/Hunter_with_pike.png")),
                     random.nextFloat() * 1720 + 110,
                     1070)
             );
