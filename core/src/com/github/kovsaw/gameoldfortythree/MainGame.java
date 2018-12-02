@@ -6,12 +6,14 @@ import com.github.kovsaw.gameoldfortythree.Scenes.MainMenuScreen;
 
 public class MainGame extends com.badlogic.gdx.Game {
     public SpriteBatch batch;
-    public BitmapFont font;
+    public BitmapFont bigFont, smallFont, tinyFont;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        font = new BitmapFont();
+        bigFont = new BitmapFont();
+        smallFont = new BitmapFont();
+        tinyFont = new BitmapFont();
         this.setScreen(new MainMenuScreen(this));
     }
 
@@ -24,6 +26,6 @@ public class MainGame extends com.badlogic.gdx.Game {
     public void dispose() {
         super.dispose();
         batch.dispose();
-        font.dispose();
+        bigFont.dispose();
     }
 }

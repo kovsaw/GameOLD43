@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.github.kovsaw.gameoldfortythree.Entities.Hunter;
@@ -344,12 +343,12 @@ public class GameScreen implements Screen {
         frameCount++;
         sheep.draw(game.batch, 1);
         sheep.setZIndex(0);
-        game.font.draw(game.batch, "Sheep amount: " + countSheeps, 100, 100);
-        game.font.draw(game.batch, "Born sheep amount: " + resultCount, 900, 100);
+        game.bigFont.draw(game.batch, "Sheep amount: " + countSheeps, 100, 100);
+        game.bigFont.draw(game.batch, "Born sheep amount: " + resultCount, 900, 100);
         game.batch.end();
 //        sr.end();
         handleInput();
-//        game.game.batch.font.draw(game.game.batch, "Count sheep: " + countSheeps, 100, 100);
+//        game.game.batch.bigFont.draw(game.game.batch, "Count sheep: " + countSheeps, 100, 100);
 //        game.game.batch.draw();
         if (countSheeps == 0) {
             game.setScreen(new OverGame(game));

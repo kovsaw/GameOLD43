@@ -10,9 +10,9 @@ public class DesktopLauncher {
         config.width = 1920;
         config.height = 1080;
         config.fullscreen = true;
-        config.vSyncEnabled = false;
-        config.backgroundFPS = 0;
-        config.foregroundFPS = 0;
+        config.vSyncEnabled = true;
+        config.backgroundFPS = 60;
+        config.foregroundFPS = 60;
         new LwjglApplication(new MainGame(), config);
     }
 }
