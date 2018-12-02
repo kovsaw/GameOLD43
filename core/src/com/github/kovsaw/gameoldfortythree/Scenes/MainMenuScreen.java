@@ -1,6 +1,7 @@
 package com.github.kovsaw.gameoldfortythree.Scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -49,18 +50,19 @@ public class MainMenuScreen implements Screen {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 120;
         game.font = generator.generateFont(parameter);
-        game.font.draw(game.batch, "SURVIVE!", 260, 540);
+        game.font.draw(game.batch, "SAVE AND LOVE ALL SHEEP!", 260, 540);
 
         parameter.size = 100;
         game.font = generator.generateFont(parameter);
-        game.font.draw(game.batch, "Press MOUSE CLICK to start!", 260, 780);
+        game.font.draw(game.batch, "Press ANY KEY to start!", 260, 780);
 
         generator.dispose();
 
 
         game.batch.end();
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             game.setScreen(new GameScreen(game));
+
         }
     }
 

@@ -3,26 +3,22 @@ package com.github.kovsaw.gameoldfortythree.Entities;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class OtherSheep extends Actor {
+public class Hunter extends Actor {
     private Sprite sprite;
-//    private Rectangle bounds;
+    //    private Rectangle bounds;
     private Polygon _bounds;
-
 
     public Polygon getBounds() {
         return _bounds;
     }
 
-
-    public OtherSheep(Sprite sprite, float x, float y) {
+    public Hunter(Sprite sprite, float x, float y) {
         this.sprite = sprite;
         setSize(sprite.getWidth(), sprite.getHeight());
         setBounds(x, y, getWidth(), getHeight());
 //        bounds = new Rectangle(x, y, getWidth(), getHeight());
-
         _bounds = new Polygon(new float[] {
                 x, y,
                 x + getWidth(), y,
@@ -49,6 +45,7 @@ public class OtherSheep extends Actor {
                 getRotation()
         );
     }
+
     @Override
     public void setRotation(float degrees) {
         super.setRotation(degrees);
@@ -63,6 +60,7 @@ public class OtherSheep extends Actor {
                 x + getWidth(), y + getHeight(),
                 x, y + getHeight()
         });
+
         super.setPosition(x, y);
         _bounds.setPosition(x, y);
     }
